@@ -1,6 +1,12 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}Chat{% endblock %}
+{% block title %}
+    {% if title %}
+        {{title}}
+    {% else %}
+        Chat
+    {% endif %}
+{% endblock %}
 
 {% block navbar %}
 
@@ -23,7 +29,20 @@
 </div>
 </div>
 </div>
+
+<hr>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 {% endblock %}
+
+
 
 {% block content %}
 
