@@ -1,7 +1,10 @@
 from flask import render_template, redirect, flash
 from . import chat
 from .forms import LoginForm
+from config import OPENID_PROVIDERS
 #toy example
+
+providers = OPENID_PROVIDERS
 @chat.route('/')
 def index():
 	return render_template('chat/index.html')
@@ -17,6 +20,6 @@ def login():
 		flash('Login requested for OpenID="%s", remember_me=%s' %(form.openid.data, str(form.remember_me.data)))
 		return redirect('/')
 	
-	return render_template('login.html',form = form, title = 'Sign In',providers=chat.config['OPENID_PROVIDERS'])
+	return render_template('login.html',form = form, title = 'Sign In',providers=providers)
 
 
