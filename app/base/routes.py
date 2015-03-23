@@ -1,19 +1,19 @@
 from flask import render_template, redirect, flash
-from . import chat
+from . import base
 from .forms import LoginForm
 from config import OPENID_PROVIDERS
-#toy example
 
 providers = OPENID_PROVIDERS
-@chat.route('/')
+@base.route('/')
 def index():
-	return render_template('chat/index.html')
+	return render_template('base/index.html')
 
-@chat.route('/user/<username>')
+@base.route('/user/<username>')
 def user(username):
-	return render_template('chat/user.html', username=username, title = username)
+	return render_template('base/user.html', username=username, title = username)
 
-@chat.route('/login', methods=['GET','POST'])
+@base.route('/login', methods=['GET','POST'])
+
 def login():
 	form = LoginForm()
 	if form.validate_on_submit():

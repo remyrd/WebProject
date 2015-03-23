@@ -17,8 +17,13 @@ def create_app(config_name):
 	login_manager.init_app(app)
 	
 	bootstrap.init_app(app)
-	from .blueprints import chat as chat_blueprint
-	app.register_blueprint(chat_blueprint)
+	
+	from .base import base as base_blueprint
+	app.register_blueprint(base_blueprint)
+	
+	from .auth import auth as auth_blueprint
+	app.register_blueprint(auth_blueprint, url_prefix='/auth')
+	
 	db.init_app(app)
 	return app
 
