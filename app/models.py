@@ -13,16 +13,6 @@ class User(db.Model):
 	contacts_requests = db.relationship('Contact', backref = 'asker', lazy='dynamic')
 	def __repr__(self):
 		return '<User %r>' % (self.username)
-
-class Contact(db.Model):
-	__tablename__='contacts'
-	id = db.Column(db.Integer, primary_key = True)
-	request_from = db.Column(db.Integer, db.ForeignKey('user.id'))
-	request_to = db.Column(db.Integer)
-	confirmed = db.Column(db.Boolean, default = False)
-	
-	def __repr__(self):
-		return '<Contact ID %r>' % (self.id)
 	
 class Rooms(db.Model):
 	__tablename__='rooms'
