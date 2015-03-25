@@ -1,2 +1,12 @@
+{% import 'bootstrap/wtf.html' as wtf %}
 {% extends "base.html" %}
 
+{% block content %}
+    {% block page_content %}
+        {% for message in get_flashed_messages() %}
+            {{message}}
+
+        {% endfor %}
+        {{ wtf.quick_form(form) }}
+    {% endblock %}
+{% endblock %}

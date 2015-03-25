@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 from manage import app
 from migrate.versioning import api
-from config import DevelopmentConfig
-from app import db
+#from config import DevelopmentConfig
+from app import db, config
 import os.path
 
-SQLALCHEMY_MIGRATE_REPO = DevelopmentConfig.SQLALCHEMY_MIGRATE_REPO
-SQLALCHEMY_DATABASE_URI = DevelopmentConfig.SQLALCHEMY_DATABASE_URI
+configuration = config[os.getenv('FLASK_CONFIG') or 'default']
+
+SQLALCHEMY_MIGRATE_REPO = configuration.SQLALCHEMY_MIGRATE_REPO
+SQLALCHEMY_DATABASE_URI = configuration.SQLALCHEMY_DATABASE_URI
 
 with app.app_context():
     db.create_all()
