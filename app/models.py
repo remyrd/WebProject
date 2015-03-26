@@ -1,5 +1,5 @@
 from app import db, login_manager
-from werkzeug import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 
 
@@ -9,7 +9,7 @@ class User(UserMixin, db.Model):
 	email = db.Column(db.String(64), nullable = True, unique = True, index = True)
 	username = db.Column(db.String(64), nullable = False, unique = True, index = True)
 	is_admin = db.Column(db.Boolean, default=False)
-	password_hash = db.Column(db.String(128))
+	password_hash = db.Column(db.String(128), nullable = False)
 	avatar_hash = db.Column(db.String(32))
 	#contacts_requests = db.relationship('Contact', backref = 'asker', lazy='dynamic')
 	

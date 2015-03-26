@@ -10,10 +10,10 @@ from flask_login import login_user
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username = form.username.data)
+        user = User.query.filter_by(username = form.username.data).first()
         if user is None or not user.verify_password(form.password.data):
             flash("username or password incorrect")
             return redirect(url_for('.login'))
         login_user(user, form.remember_me.data)
-        return redirect(url_for('base.user', username = form.username.data))
+        return redirect(url_for('base.user("remy")'))
     return render_template ('auth/login.html', form = form)
