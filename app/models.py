@@ -5,13 +5,15 @@ from flask.ext.login import UserMixin
 
 
 class User(UserMixin, db.Model):
+	__tablename__ = "users"
 	id = db.Column(db.Integer, primary_key = True)
 	email = db.Column(db.String(64), nullable = True, unique = True, index = True)
 	username = db.Column(db.String(64), nullable = False, unique = True, index = True)
 	is_admin = db.Column(db.Boolean, default=False)
 	password_hash = db.Column(db.String(128), nullable = False)
 	avatar_hash = db.Column(db.String(32))
-	#contacts_requests = db.relationship('Contact', backref = 'asker', lazy='dynamic')
+	contacts_requests = db.relationship('Contact', backref = "requester", lazy = "dynamic" )
+	room_administrated = db.relationship('Room', backref = 'room_admin')
 	
 	def __repr__(self):
 		return '<User %r>' % (self.username)
@@ -31,13 +33,19 @@ class User(UserMixin, db.Model):
 def load_user(id):
 	return User.query.get(int(id))
 	
-class Rooms(db.Model):
+class Room(db.Model):
 	__tablename__='rooms'
 	id = db.Column(db.Integer, primary_key = True)
 	roomname = db.Column(db.String(64), nullable = False, unique = True, index = True)
 	password_hash = db.Column(db.String(128))
-	admin = db.Column(db.Integer, nullable = False)
+	admin_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	
 	def __repr__(self):
 		return '<Room %r>' % (self.roomname)
+
+class Contact(db.Model):
+	__tablename__ = "contacts"
+	id = db.Column(db.Integer, primary_key = True)
+	requester_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	requestee_id = db.Column(db.Integer, nullable = False)
 	

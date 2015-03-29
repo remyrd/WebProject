@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from migrate.versioning import api
 from app import config
+import os.path
 
 configuration = config[os.getenv('FLASK_CONFIG') or 'default']
 

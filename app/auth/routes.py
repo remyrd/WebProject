@@ -15,5 +15,5 @@ def login():
             flash("username or password incorrect")
             return redirect(url_for('.login'))
         login_user(user, form.remember_me.data)
-        return redirect(url_for('base.user("remy")'))
+        return redirect(url_for('base.user', username = user.username))
     return render_template ('auth/login.html', form = form)
