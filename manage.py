@@ -18,7 +18,7 @@ def adduser(username):
 	if password != password2:
 		import sys
 		sys.exit("passwords do not match")
-	user = User(email = "haha@haha.com", username = username, password = password)
+	user = User(email = username+"@haha.com", username = username, password = password)
 	db.session.add(user)
 	db.session.commit()
 	

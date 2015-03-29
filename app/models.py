@@ -48,4 +48,6 @@ class Contact(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	requester_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	requestee_id = db.Column(db.Integer, nullable = False)
+	accepted = db.Column(db.Boolean, default=False)
+	
 	
