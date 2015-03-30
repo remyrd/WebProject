@@ -14,12 +14,23 @@ def index():
 @base.route('/user/<username>')
 def user(username):
 	users = User.query.all()
-	not_friends = None
-	#generate the available friends list
+	accepted_requesters = [] 
+	accepted_requestees = [] 
+	already_requestee_id = []
+	already_requester_id = []
+	#lists id of all current_user's friends
+	accepted_requesters.append(Contact.query.filter(Contact.accepted==True, Contact.requestee_id==current_user.id).value(Contact.requester_id))
+	accepted_requestees.append(Contact.query.filter(Contact.accepted==True, Contact.requester_id==current_user.id).value(Contact.requestee_id)) 
+	#retrieve the id of all the users who have tried to contact current_user
+	already_requestee_id.append(Contact.query.filter(Contact.requestee_id == current_user.id, Contact.accepted==False).value(Contact.requester_id))
+	#retrieve id of all users current_user has tried to contact
+	already_requester_id.append(Contact.query.filter(Contact.requester_id == current_user.id, Contact.accepted==False).value(Contact.requestee_id))
+	#generate the available ask for friends list
+	requestable_users = list()
 	for user in users:
-		if current_user.id not in Contact.requester_id.query.filter_by(requestee_id=user.id) and current_user.id not in Contact.requestee_id.query.filter_by(requester_id=user.id):
-			not_friends.apend(user)			
-	return render_template('base/user.html', username=username, title = username, users=not_friends)
+		if user.id not in (already_requestee_id or accepted_requestees or accepted_requesters) and user != current_user:
+			requestable_users.append(user)						
+	return render_template('base/user.html', username=username, title = username, users=requestable_users, already_requester_id=already_requester_id)
 
 @base.route('/login', methods=['GET','POST'])
 def login():
@@ -34,5 +45,6 @@ def login():
 def adduser(id):
 	new_contact = Contact(requester_id=current_user.id, requestee_id=id)
 	db.session.add(new_contact)
-	return redirect(url_for('.index'))
+	db.session.commit()
+	return redirect(url_for('.user', username = current_user.username))
 
