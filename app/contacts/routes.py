@@ -50,7 +50,7 @@ def delete_contact(id):
         
     db.session.delete(unwanted_person)
     db.session.commit()
-    return redirect(url_for('list_friends'))
+    return redirect(url_for('.list_friends'))
         
 @login_required
 @contacts.route('/list_friends')

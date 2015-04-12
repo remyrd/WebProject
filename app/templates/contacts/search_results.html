@@ -5,7 +5,12 @@ Results for <strong>{{name}}</strong><br>
 {% for user in listed_users %}
     {{user.username}}
     {% if user in current_user.requestable_users %} 
-        <a href="{{url_for('contacts.add',id=user.id)}}">Add</a>
+        {% if user.id not in current_user.already_requester_id %}
+        
+            <a href="{{url_for('contacts.add',id=user.id)}}">Add</a>
+        {% else %}
+            Request awaiting approval
+        {%endif%}
     {%endif %}
     <br>
 {% else %}
