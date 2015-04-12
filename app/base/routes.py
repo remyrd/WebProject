@@ -16,7 +16,7 @@ def index():
 def user(username):
 	#login redirects to this function, so contacts are mapped instantly after login
 	map_current_user_contacts()	
-	return render_template('base/user.html', username=username, title = username, users=current_user.requestable_users, already_requester_id=current_user.already_requester_id)
+	return render_template('base/user.html', requests = len(current_user.already_requestee_id), username=username, title = username, requestable_users=current_user.requestable_users, already_requester_id=current_user.already_requester_id, already_requestee_id = current_user.already_requestee_id, friends = current_user.friends)
 
 @base.route('/login', methods=['GET','POST'])
 def login():
@@ -27,30 +27,6 @@ def login():
 	
 	return render_template('login.html',form = form, title = 'Sign In',providers=providers)
 
-@base.route('/adduser/<id>', methods=['GET','POST'])
-@login_required
-def adduser(id):
-	new_contact = Contact(requester_id=current_user.id, requestee_id=id)
-	db.session.add(new_contact)
-	db.session.commit()
-	return redirect(url_for('.user', username = current_user.username))
-
-@base.route('/requests')
-@login_required
-def requests():
-	users = User.query.all()
-	return render_template("base/requests.html", users=users, requests = len(current_user.already_requestee_id), already_requestee_id = current_user.already_requestee_id)
-
-@base.route('/confirm/<id>', methods=['GET','POST'])
-@login_required
-def confirm(id):
-	confirmation = Contact.query.filter_by(requester=id,requestee=current_user.id).first()
-	if confirmation:
-		confirmation.accepted=True
-	db.session.update(confirmation)
-	db.session.commit()
-	return redirect(url_for('.index'))
-
 @base.route('/logout')
 @login_required
 def logout():
@@ -60,6 +36,7 @@ def logout():
 """maps the rest of users to the current user's perspective
 	takes ID of the users in the DB to make 5 lists
 	"""
+@base.before_request
 def map_current_user_contacts():
 	users = User.query.all()
 	current_user.accepted_requesters = [] 
@@ -67,6 +44,7 @@ def map_current_user_contacts():
 	current_user.already_requestee_id = []
 	current_user.already_requester_id = []
 	current_user.requestable_users = []
+	current_user.friends =[]
 	#lists id of all current_user's friends
 	accepted_requesters_models=Contact.query.filter_by(accepted=True, requestee_id=current_user.id).all()
 	for model in accepted_requesters_models:
@@ -86,7 +64,9 @@ def map_current_user_contacts():
 		current_user.already_requester_id.append(model.requestee_id)
 	
 	#generate the available ask for friends list
-	requestable_users = list()
 	for user in users:
 		if user.id not in (current_user.already_requestee_id or current_user.accepted_requestees or current_user.accepted_requesters) and user != current_user:
 			current_user.requestable_users.append(user)		
+		if user.id in (current_user.accepted_requestees or current_user.accepted_requesters):
+			current_user.friends.append(user)
+			

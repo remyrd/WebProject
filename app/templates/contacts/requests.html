@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    {% for user in users %}
+        
+        {%if user.id in already_requestee_id %}
+             {{user.username}}<a href="{{url_for('contacts.confirm',id=user.id)}}">Confirm</a>|
+             <a href="{{url_for('contacts.delete_request',id=user.id)}}">Ignore</a><br>
+        {% endif %}
+    {% endfor %}    
+
+{% endblock %}

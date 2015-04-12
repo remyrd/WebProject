@@ -25,6 +25,9 @@ def create_app(config_name):
 	from .auth import auth as auth_blueprint
 	app.register_blueprint(auth_blueprint, url_prefix='/auth')
 	
+	from .contacts import contacts as contacts_blueprint
+	app.register_blueprint(contacts_blueprint, url_prefix='/contacts')
+	
 	db.init_app(app)
 	return app
 

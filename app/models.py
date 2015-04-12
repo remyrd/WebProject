@@ -28,7 +28,14 @@ class User(UserMixin, db.Model):
 	
 	def verify_password(self, password):
 		return check_password_hash(self.password_hash, password)	
-		
+	
+	accepted_requesters = [] 
+	accepted_requestees = [] 
+	already_requestee_id = []
+	already_requester_id = []
+	requestable_users = []
+	
+			
 @login_manager.user_loader
 def load_user(id):
 	return User.query.get(int(id))

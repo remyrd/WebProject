@@ -1,5 +1,5 @@
 {% extends "bootstrap/base.html" %}
-
+{% import 'bootstrap/wtf.html' as wtf %}
 {% block title %}
     {% if title %}
         {{title}}
@@ -25,11 +25,18 @@
 <li><a href="{{url_for('base.index')}}">Home</a></li>
 {% if current_user.is_authenticated() %}
     <li><a href="{{url_for('base.user', username=current_user.username)}}">Profile</a></li>
-    <li><a href="{{url_for('base.requests')}}">Requests({{requests}})</a></li>
+    <li><a href="{{url_for('contacts.requests')}}">Requests({{requests}})</a></li>
+    <li><a href="{{url_for('contacts.list')}}">Friends</a></li>
     <li><a href="{{url_for('base.logout')}}">Log Out</a></li>
+    <li><form method="post" action="{{url_for('contacts.search')}}">
+        <input type="text" class="tftextinput" name="query" size="21" maxlength="120">  
+        <input type="submit" value="search" class="tfbutton">
+        </form></li>
 {% else %}
     <li><a href="{{url_for('auth.login')}}">Log In</a></li>
+    
 {% endif %}
+    
 </ul>
 </div>
 </div>

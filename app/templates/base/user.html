@@ -4,14 +4,8 @@
 <div class="page-header">
 	Hello, {{ current_user.username }} !!
 </div>
-    {% for user in users %}
-            {{user.username}} 
-            {% if user.id not in already_requester_id %}
-                <a href="{{url_for('base.adduser', id=user.id)}}">Send Request</a><br>
-            {% else %} 
-                <h3> Friend request awaiting approval <h3><br>
-            {% endif %}
-    {% else %}
-        <h3>No users found!!</h3>
-    {% endfor %}
+   
+     
+    
+    
 {% endblock %}

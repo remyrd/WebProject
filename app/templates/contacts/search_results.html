@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+Results for <strong>{{name}}</strong><br>
+{% for user in listed_users %}
+    {{user.username}}
+    {% if user in current_user.requestable_users %} 
+        <a href="{{url_for('contacts.add',id=user.id)}}">Add</a>
+    {%endif %}
+    <br>
+{% else %}
+No results found...
+{% endfor %}
+{% endblock %}
