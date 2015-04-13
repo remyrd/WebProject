@@ -1,7 +1,0 @@
-db_repo/
-venv/
-*.pyc
-*.sh
-*.sqlite
-.pydevproject
-.project*
