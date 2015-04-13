@@ -2,6 +2,6 @@ db_repo/*
 venv/*
 *.pyc
 *.sh
-*.sqlite
+data-dev.sqlite
 .pydevproject
 .project*
