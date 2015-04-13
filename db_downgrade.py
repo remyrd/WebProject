@@ -2,7 +2,7 @@
 from migrate.versioning import api
 from app import config
 
-configuration = config[os.getenv('FLASK_CONFIG') or 'default']
+configuration = config['production']
 
 SQLALCHEMY_MIGRATE_REPO = configuration.SQLALCHEMY_MIGRATE_REPO
 SQLALCHEMY_DATABASE_URI = configuration.SQLALCHEMY_DATABASE_URI
