@@ -2,7 +2,7 @@
 
 {% block page_content %}
 
-    {% for friend in friends %}
+    {% for friend in current_user.friends %}
         {{friend.username}}
         <a href="{{url_for('contacts.show_profile',id=friend.id)}}">View Profile</a>|
         <a href="{{url_for('contacts.delete_contact',id=friend.id)}}">Delete</a><br>

@@ -27,7 +27,7 @@
     <li><a href="{{url_for('base.index')}}">Home</a></li>
     <li><a href="{{url_for('base.user', username=current_user.username)}}">Profile</a></li>
     <li><a href="{{url_for('contacts.requests')}}">Requests({{requests}})</a></li>
-    <li><a href="{{url_for('contacts.list')}}">Friends</a></li>
+    <li><a href="{{url_for('contacts.list_friends')}}">Friends</a></li>
     <li><a href="{{url_for('base.logout')}}">Log Out</a></li>
     <li><form method="post" action="{{url_for('contacts.search')}}">
         <input type="text" class="tftextinput" name="query" size="21" maxlength="120">  

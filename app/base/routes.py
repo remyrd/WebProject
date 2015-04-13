@@ -31,7 +31,7 @@ def login():
 @login_required
 def logout():
 	logout_user()
-	return redirect(url_for('.index'))
+	return redirect(url_for('auth.login'))
 
 """maps the rest of users to the current user's perspective
 	takes ID of the users in the DB to make 5 lists

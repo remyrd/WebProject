@@ -54,9 +54,9 @@ def delete_contact(id):
         
 @login_required
 @contacts.route('/list_friends')
-def list():
+def list_friends():
     map_current_user_contacts()    
-    return render_template("contacts/list_friends.html", friends = current_user.friends)
+    return render_template("contacts/list_friends.html")
 
 @login_required
 @contacts.route('/search', methods=['POST','GET'])
