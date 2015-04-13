@@ -7,7 +7,7 @@ from app.models import User
 
 
 
-app = create_app(os.getenv('production'))
+app = create_app('production')
 manager = Manager(app)
 
 @manager.command
