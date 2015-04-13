@@ -25,7 +25,6 @@ decorator
 flipflop
 guess-language
 gunicorn
-itsdangerous
 pbr
 psycopg2
 

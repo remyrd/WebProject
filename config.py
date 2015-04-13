@@ -13,6 +13,8 @@ class TestingConfig(Config):
 	TESTING = True
 	SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')
 class ProductionConfig:
+	PORT = os.environ.get('PORT')
+	HOST = os.environ.get('')
 	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 	
 config = {
