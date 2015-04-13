@@ -1,2 +1,1 @@
-web: gunicorn manage.py runserver
-
+web: gunicorn manage:app
