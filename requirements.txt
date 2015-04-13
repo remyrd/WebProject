@@ -14,7 +14,7 @@ SQLAlchemy
 WTForms
 Werkzeug
 bleach
-coverage
+
 html5lib
 itsdangerous
 nose
