@@ -17,7 +17,7 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
 	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') 
 	DEBUG = False
-
+	SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repo')
 	
 config = {
 	'development': DevelopmentConfig,
