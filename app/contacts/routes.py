@@ -4,7 +4,6 @@ from ..models import User, Contact
 from flask_login import current_user, login_required
 from app import db
 from ..base.routes import map_current_user_contacts
-from flask.templating import render_template_string
 
 @login_required
 @contacts.route('/add/<id>', methods=['POST','GET'])

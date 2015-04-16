@@ -14,11 +14,11 @@ SQLAlchemy
 WTForms
 Werkzeug
 bleach
-
 html5lib
 itsdangerous
 nose
 six
+
 blinker
 coverage
 decorator
@@ -27,9 +27,9 @@ guess-language
 gunicorn
 pbr
 psycopg2
-
 pytz
-
 speaklater
 sqlalchemy-migrate
 sqlparse
+
+Flask-SocketIO

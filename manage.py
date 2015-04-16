@@ -6,8 +6,8 @@ from flask_script import Manager
 from app.models import User
 
 
-
 app = create_app('production')
+
 manager = Manager(app)
 
 @manager.command

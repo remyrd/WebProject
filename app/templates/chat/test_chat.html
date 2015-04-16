@@ -1,0 +1,30 @@
+
+{% extends "base.html" %}
+
+{%block page_content%}
+<div id="log"></div>
+<p> haha </p>
+<form id="press_me" method="POST" action='#'>
+<input type="submit" value="Tickle me">
+</form>
+
+{%endblock%}
+<script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+
+    	var socket = io.connect('http://' + document.domain + ':' + location.port);
+    	socket.on('connect', function() {
+        	socket.emit('a message', {data: 'I\'m connected!'});
+    	});
+    	socket.on('response from server', function(msg) {
+    		$('#log').append(msg.data)
+    	})
+    	$(form#press_me).submit(function(event){
+    		socket.emit('a message', {data: 'Haha'})
+    	})
+    })
+</script>
+
+
