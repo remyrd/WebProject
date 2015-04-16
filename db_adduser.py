@@ -10,6 +10,6 @@ password2= getpass()
 if password2 != password:
 	import sys
 	sys.exit("passwords don\'t match")
-new_user=User(username=argv[1], email= argv[1]@pwebproject.org, password=password)
+new_user=User(username=argv[1], email= argv[1]+"@pwebproject.org", password=password)
 db.session.add(new_user)
 db.session.commit()
