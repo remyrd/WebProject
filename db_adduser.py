@@ -14,5 +14,5 @@ if password2 != password:
 
 with app.app_context():
 	new_user=User(username=sys.argv[1], email= sys.argv[1]+"@pwebproject.org", password=password)
-	db.add(new_user)
-	db.commit()
+	db.session.add(new_user)
+	db.session.commit()
