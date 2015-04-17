@@ -3,10 +3,11 @@ from . import base
 from .forms import LoginForm
 from config import OPENID_PROVIDERS
 from app.models import User,Contact
-from app import db, login_manager
+from app import db
 from flask_login import current_user, login_required, logout_user
 
 providers = OPENID_PROVIDERS
+
 @base.route('/')
 def index():
 	return render_template('base/index.html')

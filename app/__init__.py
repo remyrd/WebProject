@@ -9,10 +9,9 @@ from flask_socketio import SocketIO
 
 bootstrap=Bootstrap()
 db = SQLAlchemy()
-socketio = SocketIO()
 login_manager = LoginManager()
 login_manager.login_view ='auth.login'
-
+socketio = SocketIO()
 
 def create_app(config_name):
 	app = Flask(__name__)

@@ -34,6 +34,7 @@
         <input type="submit" value="search" class="tfbutton">
         </form></li>
 {% else %}
+    <li><a href="{{url_for('base.index')}}">Home</a></li>
     <li><a href="{{url_for('auth.login')}}">Log In</a></li>
     
 {% endif %}
