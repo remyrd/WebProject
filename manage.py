@@ -1,10 +1,8 @@
-#!/usr/bin/env python
+from gevent import monkey
+monkey.patch_all()
 
-import os
-from app import create_app, db
-from flask_socketio import SocketIO
-#from app.models import User
-#from gevent.wsgi import WSGIServer
+from app import create_app
+from flask import Flask, render_template, session, request
 
 app = create_app('production')
 

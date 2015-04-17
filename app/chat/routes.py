@@ -1,29 +1,11 @@
-from gevent import monkey
-monkey.patch_all()
+from . import chat
+from flask import render_template
 
 from app import socketio
-from . import chat
-import time
-from threading import Thread
-from flask import Flask, render_template, session, request
-from flask.ext.socketio import SocketIO, emit, join_room, leave_room, \
-    close_room, disconnect
-
-
-def background_thread():
-    """Example of how to send server generated events to clients."""
-    count = 0
-    while True:
-        time.sleep(10)
-        count += 1
-        socketio.emit('my response',
-                      {'data': 'Server generated event', 'count': count},
-                      namespace='/test')
-
-
+from flask.ext.socketio import emit, join_room, leave_room, close_room, disconnect
 @chat.route('/test_chat')
 def test_chat():
-    return render_template('test_chat.html')
+    return render_template('chat/test_chat.html')
 
 
 @socketio.on('my event', namespace='/test')
