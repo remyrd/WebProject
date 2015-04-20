@@ -1,5 +1,6 @@
 from . import chat
-from flask import render_template
+from flask import render_template, jsonify
+from flask_login import current_user
 
 from app import socketio
 from flask.ext.socketio import emit, join_room, leave_room, close_room, disconnect
@@ -11,12 +12,14 @@ def test_chat():
 @socketio.on('my event', namespace='/test')
 def test_message(message):
     emit('my response',
-         {'data': message['data']})
+         {'data':message['data'],
+         		'user' :  'remy'})
 
 @socketio.on('my broadcast event', namespace='/test')
 def test_broadcast_message(message):
     emit('my response',
-         {'data': message['data']},
+         {'data' : message['data'],
+         		'user' : 'remy'},
          broadcast=True)
 
 @socketio.on('join', namespace='/test')

@@ -10,7 +10,7 @@ providers = OPENID_PROVIDERS
 
 @base.route('/')
 def index():
-	return render_template('base/index.html')
+	return redirect(url_for('auth.login'))
 
 @base.route('/user/<username>')
 @login_required
