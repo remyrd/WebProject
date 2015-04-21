@@ -10,7 +10,10 @@ providers = OPENID_PROVIDERS
 
 @base.route('/')
 def index():
-	return redirect(url_for('auth.login'))
+	if current_user.is_authenticated:
+		return render_template('base/index.html')
+	else:
+		return redirect(url_for('auth.login'))
 
 @base.route('/user/<username>')
 @login_required
@@ -38,6 +41,7 @@ def logout():
 	takes ID of the users in the DB to make 5 lists
 	"""
 @base.before_request
+@login_required
 def map_current_user_contacts():
 	users = User.query.all()
 	current_user.accepted_requesters = [] 
@@ -70,4 +74,4 @@ def map_current_user_contacts():
 			current_user.requestable_users.append(user)		
 		if user.id in (current_user.accepted_requestees or current_user.accepted_requesters):
 			current_user.friends.append(user)
-			
+		

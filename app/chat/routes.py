@@ -13,13 +13,13 @@ def test_chat():
 def test_message(message):
     emit('my response',
          {'data':message['data'],
-         		'user' :  'remy'})
+         		'user' :  current_user.username})
 
 @socketio.on('my broadcast event', namespace='/test')
 def test_broadcast_message(message):
     emit('my response',
          {'data' : message['data'],
-         		'user' : 'remy'},
+         		'user' : current_user.username},
          broadcast=True)
 
 @socketio.on('join', namespace='/test')

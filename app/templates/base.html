@@ -58,6 +58,7 @@
                 </ul>
         {% endif %}
     {% endwith %}
+    </div>
 {% endblock %}
 
 
@@ -69,8 +70,36 @@
 	{% block page_content %}
 	{% endblock %}
 </div>
+<div class="footer">
+    {%block footer%}
+        <div class="col-sm-4">
+              <!--<div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Panel title</h3>
+                </div>
+                <div class="panel-body">
+                  Panel content
+                </div>
+              </div>-->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Chat Conversation!</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="log"></div>
+
+                    <form id="broadcast" method="POST" action='#'>
+                        <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
+                        <input type="submit" value="Broadcast">    
+                    </form>
+                </div>
+            </div>
+        </div>
+    {%endblock%}
+</div>
 
 {% endblock %}
+
 
 {%block scripts%}
 {{super()}}

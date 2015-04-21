@@ -66,6 +66,10 @@ def search():
     for user in User.query.all():
         if name in user.username:
             listed_users.append(user)
+    if len(name) == 0:
+        flash('Showing all users')
+    else:
+        flash('Results for \"'+name+'\"')
     return render_template('contacts/search_results.html',name = name, listed_users=listed_users)
     
 
