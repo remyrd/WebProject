@@ -13,7 +13,7 @@ class User(UserMixin, db.Model):
 	password_hash = db.Column(db.String(128), nullable = False)
 	avatar_hash = db.Column(db.String(32))
 	contacts_requests = db.relationship('Contact', backref = "requester", lazy = "dynamic" )
-	room_administrated = db.relationship('Room', backref = 'room_admin')
+
 	
 	def __repr__(self):
 		return '<User %r>' % (self.username)
@@ -39,6 +39,12 @@ class User(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(id):
 	return User.query.get(int(id))
+
+association_table = db.Table('association', db.Model.metadata,
+    db.Column('room_id', db.Integer, db.ForeignKey('rooms.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
+)
+
 	
 class Room(db.Model):
 	__tablename__='rooms'
@@ -47,6 +53,18 @@ class Room(db.Model):
 	password_hash = db.Column(db.String(128))
 	admin_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	
+	users = db.relationship("User",secondary=association_table,backref="Room")
+
+	@property
+	def password(self):
+		raise AttributeError("password is not readable")
+	
+	@password.setter
+	def password(self, password):
+		self.password_hash = generate_password_hash(password)
+	
+	def verify_password(self, password):
+		return check_password_hash(self.password_hash, password)
 	def __repr__(self):
 		return '<Room %r>' % (self.roomname)
 

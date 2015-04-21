@@ -30,6 +30,9 @@ def create_app(config_name):
 
 	from .chat import chat as chat_blueprint
 	app.register_blueprint(chat_blueprint, url_prefix='/chat')
+
+	from .rooms import rooms as rooms_blueprint
+	app.register_blueprint(rooms_blueprint, url_prefix='/rooms')
 	
 	bootstrap.init_app(app)
 	db.init_app(app)
