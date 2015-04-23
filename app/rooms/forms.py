@@ -12,3 +12,4 @@ class RegisterRoom(Form):
 class SignInRoom(Form):
 	roomname = StringField('roomname', validators=[DataRequired()])
 	password = PasswordField('password', validators=[DataRequired()])
+	submit = SubmitField('Enter Rooom')
