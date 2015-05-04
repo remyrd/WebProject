@@ -1,14 +1,2 @@
-2342236
-h
-theme
-theme solarized
-theme larapaste
-config ASCII_ART
-config TREND_MAX
-config IMAGE_ON_TERM
-config IMAGE_ON_TERM = true
-h discover
-home
-q
-config
+home 15
 q

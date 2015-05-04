@@ -5,3 +5,4 @@ venv/*
 data-dev.sqlite
 .pydevproject
 .project*
+completer.hist
