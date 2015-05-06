@@ -1,10 +1,13 @@
+import gevent
+
 from gevent import monkey
 monkey.patch_all()
 
-from app import create_app, socketio
-from flask import Flask, render_template, session, request
+from app import create_app
+from flask import Flask
+from flask.ext.sockets import Sockets
+
 
 app = create_app('production')
+sockets = Sockets(app)
 
-if __name__ == '__main__':
-	socketio.run(app)

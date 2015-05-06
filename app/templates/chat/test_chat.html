@@ -1,19 +1,27 @@
 {% extends "bootstrap/base.html" %}
 {%block content%}
-<div class="col-sm-4">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Chat</h3>
+<div class="container">
+      <div class="jumbotron">
+        <h1>Python Websockets Chat Demo</h1>
+        <hr />
+        <p>This is a Python WebSockets Chat Demo. The code lives <a href="https://github.com/heroku-examples/python-websockets-chat">on GitHub</a>. </p>
+        <p>You can find the full guide in <a href="https://devcenter.heroku.com/articles/python-websockets">Heroku DevCenter</a>.</p>
+      </div>
+      <form id="input-form" class="form-inline">
+        <div class="form-group">
+          <input id="input-handle" type="text" class="form-control" placeholder="Enter handle" autofocus />
         </div>
-        <div class="panel-body">
-            <div id="log"></div><br>
-            <form id="broadcast" method="POST" action='#'>
-                <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
-                <input type="submit" value="Broadcast">
-            </form>
+        <div class="form-group">
+          <input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />
         </div>
+        <button class="btn btn-primary" type="submit">Send</button>
+      </form>
+      <div class="page-header">
+        <h1>Chat Log</h1>
+      </div>
+      <div id="chat-text">
+      </div>
     </div>
-</div>
 {%endblock%}
 
 

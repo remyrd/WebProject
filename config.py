@@ -1,4 +1,5 @@
 import os
+
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'
@@ -11,7 +12,8 @@ STATICFILES_DIRS = (
 class Config:
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
 	CSRF_ENABLED = True
-
+	REDIS_URL = os.environ['REDISCLOUD_URL']
+	REDIS_CHAN = 'chat'
 class DevelopmentConfig(Config):
 	DEBUG = True
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'garbage'
