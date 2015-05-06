@@ -1,21 +1,20 @@
 #application factory function
 
 import os
-import redis
 from flask import Flask
 from config import config
 from flask.ext.bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_socketio import SocketIO
-from .chat_backend import ChatBackend
+
 
 bootstrap=Bootstrap()
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view ='auth.login'
 socketio = SocketIO()
-chat = ChatBackend()
+
 
 def create_app(config_name):
 	app = Flask(__name__)
@@ -41,8 +40,6 @@ def create_app(config_name):
 	bootstrap.init_app(app)
 	db.init_app(app)
 	socketio.init_app(app)
-	redis = redis.from_url(REDIS_URL)
-	chat.start()
 	
 	return app
 

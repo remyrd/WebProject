@@ -1,2 +1,2 @@
-web: gunicorn --worker-class socketio.sgunicorn.GeventSocketIOWorker manage:app -w 1
+web: gunicorn -k flask_sockets.worker manage:app
 init: python db_create.py
