@@ -7,6 +7,7 @@ Flask-PageDown
 Flask-SQLAlchemy
 Flask-Script
 Flask-WTF
+Flask-Sockets
 Jinja2
 Markdown
 MarkupSafe
@@ -18,7 +19,8 @@ html5lib
 itsdangerous
 nose
 six
-
+gevent==0.13.8
+gevent-websocket==0.3.6
 blinker
 coverage
 decorator
@@ -31,5 +33,5 @@ pytz
 speaklater
 sqlalchemy-migrate
 sqlparse
-
+redis
 Flask-SocketIO
