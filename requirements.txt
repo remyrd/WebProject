@@ -19,7 +19,8 @@ html5lib
 itsdangerous
 nose
 six
-
+gevent==0.13.8
+gevent-websocket==0.3.6
 blinker
 coverage
 decorator
