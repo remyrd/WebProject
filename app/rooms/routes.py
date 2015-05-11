@@ -2,7 +2,7 @@ from . import rooms
 from flask import redirect, render_template, url_for, flash
 from app import db
 from .forms import SignInRoom, RegisterRoom
-from ..models import Room, association_table
+from ..models import Room
 from flask.ext.login import current_user
 
 
@@ -29,16 +29,15 @@ def add_room():
 def join_room():
 	form = SignInRoom()
 	room = Room.query.filter_by(roomname = form.roomname.data).first()
-	if room:
-		print('we got room '+room.roomname)
 	if form.validate_on_submit():
 		if room is None or not room.verify_password(form.password.data):
 			flash('incorrect roomname or password')
 			return redirect(url_for('.join_room'))
-		flash('joined room '+room.roomname)
-		user_entered_room = association_table(room_id = room.id, user_id = current_user.id)
-		db.session.add(user_entered_room)
-		db.session.commit()
+		if room in current_user.rooms:
+			flash('you already belong to this room!')
+			return redirect(url_for('join_room'))
+		flash('joined room '+room.roomname+'\n you can now select it from the header')
+		current_user.rooms.append(room)
 		return redirect(url_for('base.index'))
 	return render_template('rooms/join_room.html', form = form)
 

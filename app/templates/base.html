@@ -48,6 +48,14 @@
                         <input type="text" class="tftextinput" name="query" size="21" maxlength="120">  
                         <input type="submit" value="search" class="tfbutton">
                         </form></li>
+        {% if curren_user.rooms is not None %}
+                    <li><select>
+                        <option value="" disabled="disabled" selected="selected">Select Room</option>
+    
+            {% for room in current_user.rooms%}
+                        <option value="{{room.id}}"><a href="JavaScript:newPopup('{{url_for('chat.test_chat')}}')">{{room.roomname}}</a></option>
+            {%endfor%}
+                        </select></li>
     {% else %}
                     <li><a href="{{url_for('base.index')}}">Home</a></li>
                     <li><a href="{{url_for('auth.login')}}">Log In</a></li>

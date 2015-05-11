@@ -2,6 +2,11 @@ from app import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 
+subscribers = db.Table('subscribers',
+	db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+	db.Column('room_id', db.Integer, db.ForeignKey('rooms.id'))
+	)
+
 
 
 class User(UserMixin, db.Model):
@@ -12,7 +17,7 @@ class User(UserMixin, db.Model):
 	is_admin = db.Column(db.Boolean, default=False)
 	password_hash = db.Column(db.String(128), nullable = False)
 	avatar_hash = db.Column(db.String(32))
-	contacts_requests = db.relationship('Contact', backref = "requester", lazy = "dynamic" )
+	rooms = db.relationship('Room', secondary=subscribers, backref='users')
 
 	
 	def __repr__(self):
@@ -40,10 +45,6 @@ class User(UserMixin, db.Model):
 def load_user(id):
 	return User.query.get(int(id))
 
-association_table = db.Table('association', db.Model.metadata,
-    db.Column('room_id', db.Integer, db.ForeignKey('rooms.id')),
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
-)
 
 	
 class Room(db.Model):
@@ -53,8 +54,6 @@ class Room(db.Model):
 	password_hash = db.Column(db.String(128))
 	admin_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	
-	users = db.relationship("User",secondary=association_table,backref="Room")
-
 	@property
 	def password(self):
 		raise AttributeError("password is not readable")

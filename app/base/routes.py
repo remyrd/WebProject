@@ -41,7 +41,6 @@ def logout():
 	takes ID of the users in the DB to make 5 lists
 	"""
 @base.before_request
-@login_required
 def map_current_user_contacts():
 	users = User.query.all()
 	current_user.accepted_requesters = [] 
