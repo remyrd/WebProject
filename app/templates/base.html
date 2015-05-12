@@ -33,29 +33,34 @@
                     <li><a href="{{url_for('base.user', username=current_user.username)}}">Profile</a></li>
                     <li><a href="{{url_for('contacts.requests')}}">Requests({{requests}})</a></li>
                     <li><a href="{{url_for('contacts.list_friends')}}">Friends</a></li>
-                    <script type="text/javascript">
-                        // Popup window code
-                        function newPopup(url) {
-                            popupWindow = window.open(
-                                url,'popUpWindow','height=400,width=300,left=-0,top=0,resizable=no,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
-                        }
-                        </script>
-                    <li><a href="JavaScript:newPopup('{{url_for('chat.test_chat')}}')">Chat</a></li>
-                    <li><a href="{{url_for('rooms.add_room')}}">Add Room</a></li>
-                    <li><a href="{{url_for('rooms.join_room')}}">Join Room</a></li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Manage Rooms <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{url_for('rooms.list_rooms')}}">List Rooms</a></li>
+                            <li><a href="{{url_for('rooms.add_room')}}">Add Room</a></li>
+                            <li><a href="{{url_for('rooms.join_room')}}">Join Room</a></li>
+                            <li class="divider"></li>
+                            
+                        </ul>
+                    </li>
+
+
+                    
                     <li><a href="{{url_for('base.logout')}}">Log Out</a></li>
                     <li><form method="post" action="{{url_for('contacts.search')}}">
                         <input type="text" class="tftextinput" name="query" size="21" maxlength="120">  
                         <input type="submit" value="search" class="tfbutton">
                         </form></li>
-        {% if curren_user.rooms is not None %}
-                    <li><select>
-                        <option value="" disabled="disabled" selected="selected">Select Room</option>
-    
+        {%if current_user.rooms%}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Available Rooms<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu" id ="joinable">
             {% for room in current_user.rooms%}
-                        <option value="{{room.id}}"><a href="JavaScript:newPopup('{{url_for('chat.test_chat')}}')">{{room.roomname}}</a></option>
+                            <li><button id="{{url_for('chat.test_chat',room_id=room.id)}}" value ="{{room.roomname}}">{{room.roomname}}</button></li>
             {%endfor%}
-                        </select></li>
+                    </li>
+        {%endif%}
     {% else %}
                     <li><a href="{{url_for('base.index')}}">Home</a></li>
                     <li><a href="{{url_for('auth.login')}}">Log In</a></li>
@@ -90,4 +95,23 @@
 </div>
 
 {% endblock %}
+
+{%block scripts%}
+{{super()}}
+<script>
+$(document).ready(function() {
+    $('#joinable >li > button').click(function(){
+        
+        popupWindow = window.open($(this).attr("id"),'popUpWindow','height=600,width=400,left=-0,top=0,resizable=no,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')    
+        
+        
+    })
+
+
+})
+
+
+</script>
+
+{%endblock%}
 

@@ -2,7 +2,7 @@ from . import rooms
 from flask import redirect, render_template, url_for, flash
 from app import db
 from .forms import SignInRoom, RegisterRoom
-from ..models import Room
+from ..models import User, Room, subscribers
 from flask.ext.login import current_user
 
 
@@ -35,9 +35,29 @@ def join_room():
 			return redirect(url_for('.join_room'))
 		if room in current_user.rooms:
 			flash('you already belong to this room!')
-			return redirect(url_for('join_room'))
+			return redirect(url_for('.join_room'))
 		flash('joined room '+room.roomname+'\n you can now select it from the header')
 		current_user.rooms.append(room)
+		db.session.commit()
 		return redirect(url_for('base.index'))
 	return render_template('rooms/join_room.html', form = form)
+
+@rooms.route('/leave_room/<room_id>', methods=['POST', 'GET'])
+def leave_room(room_id):
+	room = Room.query.get(room_id)
+	if room in current_user.rooms:
+		current_user.rooms.remove(room)
+		db.session.commit()
+		flash('you left room '+room.roomname)
+		return redirect(url_for('.list_rooms'))
+	else:
+		flash('can\'t remove non existent room')
+	return redirect(url_for('rooms.join_room'))
+
+@rooms.route('/list_rooms')
+def list_rooms():
+	rooms = current_user.rooms
+	return render_template('rooms/list_rooms.html', rooms = rooms)
+
+
 
