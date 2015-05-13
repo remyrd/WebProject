@@ -20,9 +20,11 @@ def add_room():
 						password=form.password.data, 
 						admin_id=current_user.id
 						)
+
 			db.session.add(room)
+			room.users.append(User.query.get(current_user.id))
 			db.session.commit()
-			return redirect(url_for('chat.test_chat'))
+			return redirect(url_for('.list_rooms'))
 	return render_template('rooms/add_room.html',form=form)
 
 @rooms.route('/join_room', methods=['POST', 'GET'])
@@ -42,22 +44,36 @@ def join_room():
 		return redirect(url_for('base.index'))
 	return render_template('rooms/join_room.html', form = form)
 
-@rooms.route('/leave_room/<room_id>', methods=['POST', 'GET'])
-def leave_room(room_id):
+@rooms.route('/leave_room/<room_id>/<user_id>', methods=['POST', 'GET'])
+def leave_room(room_id, user_id):
 	room = Room.query.get(room_id)
-	if room in current_user.rooms:
-		current_user.rooms.remove(room)
-		db.session.commit()
-		flash('you left room '+room.roomname)
-		return redirect(url_for('.list_rooms'))
-	else:
-		flash('can\'t remove non existent room')
+	user = User.query.get(user_id)
+	if room in user.rooms:
+		if (user.id == current_user.id) | (current_user.id == room.admin_id):
+			user.rooms.remove(room)
+			db.session.commit()
+			return redirect(url_for('.list_rooms'))
+		else:
+			flash('can\'t remove non existent room')
 	return redirect(url_for('rooms.join_room'))
 
 @rooms.route('/list_rooms')
 def list_rooms():
-	rooms = current_user.rooms
+	rooms = Room.query.all()
 	return render_template('rooms/list_rooms.html', rooms = rooms)
+
+
+@rooms.route('/delete_room/<room_id>',methods=['POST','GET'])
+def delete_room(room_id):
+	room = Room.query.get(room_id)
+	if (current_user.id == room.admin_id) and (room is not None):
+		name = room.roomname
+		db.session.delete(room)
+		db.session.commit()
+		flash('room \"'+name+ '\" has been deleted')
+	else:
+		flash('could not delete room '+room.roomname)
+	return redirect(url_for('.list_rooms'))
 
 
 

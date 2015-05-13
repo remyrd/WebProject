@@ -3,34 +3,36 @@
 {{super()}}
 <style type="text/css">
         #chat-text { overflow: auto;
-  height: 500px; }
+  height: 300px; }
     </style>
 {%endblock%}
 {%block content%}
 <div class="container">
-      <div id="click-me"><bold>People in this room</bold>
-      <div class="form-group" id="people-in-room">
-          <ul id="input-handle" value="{{current_user.username}}">
-          {%for user in room.users%}
-          <li>{{user.username}}</li>
-          {%endfor%}
-          </ul>
+      <a class="btn btn-xs btn-success" href="#" role="button" id="click-me">Toogle show users</a>
+        <div class="form-group" id="people-in-room">
+            <ul id="input-handle" value="{{current_user.username}}">
+            {%for user in room.users%}
+              <li>{{user.username}}</li>
+              {% if user.id == room.admin_id%}
+                (admin)
+              {%endif%}
+            {%endfor%}
+            </ul>
+        </div>
+      
+      <div class='panel panel-default'>
+          <div id = "roomname" value = "{{room.roomname}}" class='panel-heading'>{{room.roomname}}</div>
+          <div id="chat-text">
+          </div>
       </div>
+
       <form id="input-form" class="form-inline">
         <div class="form-group">
           <input id="input-text" type="text" class="form-control" placeholder="Enter message here!" autofocus />
         </div>
         <button class="btn btn-primary" type="submit">Send</button>
       </form>
-      <div class="page-header">
-        <h1>Chat Log</h1>
-      </div>
-      <div class='panel panel-default'>
-          <div id = "roomname" value = "{{room.roomname}}" class='panel-heading'>{{room.roomname}}</div>
-          <div id="chat-text">
-          </div>
-      </div>
-    </div>
+</div>
 {%endblock%}
 
 {%block scripts%}
@@ -40,49 +42,5 @@
 
 <script type="text/javascript" src="../../static/js/bootstrap.js"></script>
 <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function() {
-
-  var inbox = new ReconnectingWebSocket("ws://"+ location.host + "/receive");
-  var outbox = new ReconnectingWebSocket("ws://"+ location.host + "/submit");
-
-  inbox.onmessage = function(message) {
-    var data = JSON.parse(message.data);
-    if (data.room == $("#roomname").attr("value")) {
-      $("#chat-text").append("<div class='panel-body'>" + $('<span/>').text(data.handle).html() +" : "+$('<span/>').text(data.text).html() + "</div>");
-      $("#chat-text").stop().animate({
-        scrollTop: $('#chat-text')[0].scrollHeight
-      }, 300);
-    }
-  };
-
-  inbox.onclose = function(){
-      console.log('inbox closed');
-      this.inbox = new WebSocket(inbox.url);
-
-  };
-
-  outbox.onclose = function(){
-      console.log('outbox closed');
-      this.outbox = new WebSocket(outbox.url);
-  };
-
-  $("#input-form").on("submit", function(event) {
-    event.preventDefault();
-    var handle = $("#input-handle").attr("value");
-    var text   = $("#input-text")[0].value;
-    var room = $("#roomname").attr("value");
-    if (text != "") {
-      outbox.send(JSON.stringify({ handle: handle, text: text, room: room }));
-    }
-    $("#input-text")[0].value = "";
-  });
-
-  $("#click-me").click(function(){
-    $("#people-in-room").toggle();
-
-  })
-})
-
-</script>
+<script type="text/javascript" src="../../static/js/application.js"></script>
 {%endblock%}
