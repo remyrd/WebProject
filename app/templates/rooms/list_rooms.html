@@ -1,0 +1,29 @@
+{%extends "base.html"%}
+
+{%block page_content%}
+<ul>
+{%for room in rooms%}
+
+	<li>{{room.roomname}}
+		{% if room in current_user.rooms%}
+			{%if current_user.id != room.admin_id%}
+				<a href="{{url_for('rooms.leave_room', room_id = room.id, user_id = current_user.id)}}"> Leave </a>
+			{%elif current_user.id == room.admin_id%}
+				<a href="{{url_for('rooms.delete_room', room_id = room.id)}}"> Delete this Room </a>
+			{%endif%}
+		{%endif%}
+		<ul>{%for user in room.users%}
+			<li>{{user.username}}
+			{%if user.id == room.admin_id%}
+				 (admin) 
+			{%elif current_user.id == room.admin_id%}
+				<a href="{{url_for('rooms.leave_room', room_id = room.id, user_id = user.id)}}"> Kick </a>
+			{%endif%}
+			</li>
+			{%endfor%}
+		</ul>
+	</li>
+{%endfor%}
+</ul>
+{%endblock%}
+
